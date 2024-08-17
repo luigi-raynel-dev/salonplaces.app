@@ -1,5 +1,4 @@
-import { TopBar } from '@/components/TopBar'
-import { AppBar, Typography } from '@mui/material'
+import { TopBar } from '@/components/layout/TopBar'
 import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function _document() {

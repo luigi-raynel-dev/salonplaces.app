@@ -11,3 +11,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.slider-class {
+  gap: 8px;
+}
