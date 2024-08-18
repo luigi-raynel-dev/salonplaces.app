@@ -2,6 +2,7 @@ import '@/app/globals.css'
 import * as React from 'react'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
+import 'leaflet/dist/leaflet.css'
 
 interface MyAppProps extends AppProps {}
 

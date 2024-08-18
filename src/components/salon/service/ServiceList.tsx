@@ -24,10 +24,14 @@ export const ServiceCardItem: React.FC = () => {
         >
           <Stack gap={1}>
             <Typography fontSize={20}>Serviço Lorem Ipsum</Typography>
-            <Typography fontSize={16}>R$ 60</Typography>
+            <Typography fontSize={16} color="GrayText">
+              R$ 30
+            </Typography>
             <Stack direction="row" alignItems="center" gap={0.5}>
               <AccessTime />
-              <Typography fontSize={16}>60 minutos</Typography>
+              <Typography fontSize={16} color="GrayText">
+                60 minutos
+              </Typography>
             </Stack>
           </Stack>
           <Button
