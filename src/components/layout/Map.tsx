@@ -6,25 +6,30 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 
-export const Map: React.FC = () => {
-  const position: LatLngExpression = [51.505, -0.09]
+export interface MapProps {
+  position: LatLngExpression
+  popup?: React.ReactNode
+  className?: string
+  zoom?: number
+}
 
+export const Map: React.FC<MapProps> = ({
+  position,
+  popup,
+  className,
+  zoom = 13
+}) => {
   return (
-    <MapContainer
-      center={position}
-      zoom={13}
-      scrollWheelZoom={false}
-      className="h-80 rounded-lg"
-    >
+    <MapContainer center={position} zoom={zoom} className={className}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={position}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {popup && (
+        <Marker position={position}>
+          <Popup>{popup}</Popup>
+        </Marker>
+      )}
     </MapContainer>
   )
 }

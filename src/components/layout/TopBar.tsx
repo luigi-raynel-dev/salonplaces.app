@@ -9,7 +9,12 @@ export const TopBar: React.FC = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
-        sx={{ background: 'blueviolet', color: 'black' }}
+        sx={{
+          background: 'transparent',
+          color: 'black',
+          boxShadow: 0,
+          borderBottom: '1px solid #ddd'
+        }}
       >
         <Toolbar>
           <Typography

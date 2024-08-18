@@ -4,11 +4,11 @@ import { Button, Card, CardContent, Stack, Typography } from '@mui/material'
 export const ServiceList: React.FC = () => {
   return (
     <Stack width="100%" gap={2}>
-      <ServiceCardItem />
-      <ServiceCardItem />
-      <ServiceCardItem />
-      <ServiceCardItem />
-      <ServiceCardItem />
+      <ServiceCardItem key={1} />
+      <ServiceCardItem key={2} />
+      <ServiceCardItem key={3} />
+      <ServiceCardItem key={4} />
+      <ServiceCardItem key={5} />
     </Stack>
   )
 }

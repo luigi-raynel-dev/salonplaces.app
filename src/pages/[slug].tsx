@@ -1,16 +1,15 @@
 import { ImageCarousel } from '@/components/layout/ImageCarousel'
+import { AddressDisplay } from '@/components/salon/about/AddressDisplay'
 import { SalonMap } from '@/components/salon/about/SalonMap'
+import {
+  OpeningHours,
+  OpeningHoursType
+} from '@/components/salon/location/OpeningHours'
 import { ServiceList } from '@/components/salon/service/ServiceList'
 import { stringAvatar } from '@/helpers/letterAvatar'
 import { SalonProps } from '@/helpers/salon'
 import { publicApi } from '@/lib/axios'
-import {
-  Directions,
-  Facebook,
-  Instagram,
-  Place,
-  WhatsApp
-} from '@mui/icons-material'
+import { Facebook, Instagram, WhatsApp } from '@mui/icons-material'
 import {
   Avatar,
   Button,
@@ -26,6 +25,7 @@ import {
 } from '@mui/material'
 import { TiktokLogo } from '@phosphor-icons/react/dist/ssr'
 import { GetServerSideProps, NextPage } from 'next'
+import { useEffect, useState } from 'react'
 export interface SalonResponseProps {
   salon?: SalonProps
 }
@@ -37,7 +37,36 @@ export const getServerSideProps = (async context => {
   return { props: { salon: response.data.salon } }
 }) satisfies GetServerSideProps<{ salon: SalonProps | undefined }>
 
+export interface OpeningHoursResponse {
+  openingHours?: OpeningHoursType | null
+}
+
 const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
+  const [openingHoursLoading, setOpeningHoursLoading] = useState(true)
+  const [openingHours, setOpeningHours] = useState<OpeningHoursType | null>()
+
+  const getOpeningHours = async () => {
+    try {
+      setOpeningHoursLoading(true)
+      if (salon && salon.Location.length) {
+        const response = await publicApi.get<OpeningHoursResponse>(
+          `/salons/${salon.slug}/locations/${salon.Location[0].id}/openingHours`
+        )
+
+        if (response.data.openingHours !== undefined)
+          setOpeningHours(response.data.openingHours)
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setOpeningHoursLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getOpeningHours()
+  }, [salon])
+
   return !salon || salon.Location.length === 0 ? (
     <div></div>
   ) : (
@@ -50,6 +79,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
           <ImageCarousel>
             {salon.SalonMedia.map(media => (
               <Card
+                key={media.id}
                 sx={{
                   width: '100%',
                   height: '400px',
@@ -100,18 +130,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
                   )}
                   <Typography fontSize={24}>{salon.name}</Typography>
                 </Stack>
-                <Stack direction="row" alignItems="center">
-                  <Place />
-                  <Typography fontSize={16}>
-                    {salon.Location[0].address}
-                  </Typography>
-                </Stack>
-                <Stack alignItems="start">
-                  <Button sx={{ gap: 1 }}>
-                    <Directions />
-                    Como chegar
-                  </Button>
-                </Stack>
+                <AddressDisplay salon={salon} />
                 <Button
                   variant="contained"
                   sx={{
@@ -160,6 +179,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
             {salon.Location[0].LocationHasProfessional.map(
               ({ professional }) => (
                 <Tooltip
+                  key={professional.id}
                   title={`${professional.user.firstName} ${professional.user.lastName}`}
                 >
                   <IconButton>
@@ -185,8 +205,31 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
           {salon.description}
         </Stack>
         <Stack gap={2}>
-          <Typography fontSize={24}>Endereço</Typography>
-          <SalonMap />
+          <Typography fontSize={24}>Local</Typography>
+          <Stack direction="row" width="100%">
+            <div style={{ width: '50%', height: '100%' }}>
+              <SalonMap salon={salon} className="h-72 w-full rounded-l-lg" />
+            </div>
+            <Card
+              sx={{
+                background: '#F8F8FA',
+                width: '50%',
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0
+              }}
+            >
+              <CardContent>
+                <Stack width="100%" gap={1}>
+                  <AddressDisplay salon={salon} />
+                  <Divider />
+                  <OpeningHours
+                    openingHours={openingHours}
+                    isLoading={openingHoursLoading}
+                  />
+                </Stack>
+              </CardContent>
+            </Card>
+          </Stack>
         </Stack>
       </Stack>
     </Container>
