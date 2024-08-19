@@ -18,6 +18,7 @@
     "@mui/material-nextjs": "^5.16.6",
     "@phosphor-icons/react": "^2.1.7",
     "axios": "^1.7.4",
+    "dayjs": "^1.11.12",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "next": "14.2.5",

@@ -222,14 +222,17 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
                 <Stack width="100%" gap={1}>
                   <AddressDisplay salon={salon} />
                   <Divider />
-                  <OpeningHours
-                    openingHours={openingHours}
-                    isLoading={openingHoursLoading}
-                  />
                 </Stack>
               </CardContent>
             </Card>
           </Stack>
+        </Stack>
+        <Stack gap={2}>
+          <Typography fontSize={24}>Horário de funcionamento</Typography>
+          <OpeningHours
+            openingHours={openingHours}
+            isLoading={openingHoursLoading}
+          />
         </Stack>
       </Stack>
     </Container>
