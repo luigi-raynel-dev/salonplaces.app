@@ -16,7 +16,7 @@ export const AddressDisplay: React.FC<AddressDisplayProps> = ({ salon }) => {
       <Stack alignItems="start">
         <Button sx={{ gap: 1 }}>
           <Directions />
-          Como chegar
+          Get directions
         </Button>
       </Stack>
     </Stack>

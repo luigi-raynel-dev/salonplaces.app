@@ -1,15 +1,19 @@
 import { ImageCarousel } from '@/components/layout/ImageCarousel'
 import { AddressDisplay } from '@/components/salon/about/AddressDisplay'
+import {
+  ContactAndSocial,
+  ContactAndSocialList
+} from '@/components/salon/about/ContactAndSocial'
 import { SalonMap } from '@/components/salon/about/SalonMap'
 import {
   OpeningHours,
   OpeningHoursType
 } from '@/components/salon/location/OpeningHours'
+import { LocationResourcesChips } from '@/components/salon/location/LocationResources'
 import { ServiceList } from '@/components/salon/service/ServiceList'
 import { stringAvatar } from '@/helpers/letterAvatar'
 import { SalonProps } from '@/helpers/salon'
 import { publicApi } from '@/lib/axios'
-import { Facebook, Instagram, WhatsApp } from '@mui/icons-material'
 import {
   Avatar,
   Button,
@@ -23,9 +27,10 @@ import {
   Tooltip,
   Typography
 } from '@mui/material'
-import { TiktokLogo } from '@phosphor-icons/react/dist/ssr'
 import { GetServerSideProps, NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import { PaymentMethodsChips } from '@/components/salon/location/PaymentMethods'
+import { ProfessionalAvatar } from '@/components/professionals/ProfessionalAvatar'
 export interface SalonResponseProps {
   salon?: SalonProps
 }
@@ -99,7 +104,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
         <Stack direction="row" justifyContent="space-between" gap={4}>
           <Stack width="60%">
             <Stack gap={3} width="100%">
-              <Typography fontSize={24}>Os Serviços Mais Populares</Typography>
+              <Typography fontSize={24}>Services</Typography>
               <ServiceList />
               <Stack alignItems="start">
                 <Button
@@ -113,7 +118,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
                     }
                   }}
                 >
-                  Ver todos os serviços
+                  See all services
                 </Button>
               </Stack>
             </Stack>
@@ -140,72 +145,32 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
                     }
                   }}
                 >
-                  Agendar
+                  Book Now
                 </Button>
-                <Divider>Contatos e Sociais</Divider>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {salon.phone && (
-                    <IconButton>
-                      <WhatsApp />
-                    </IconButton>
-                  )}
-                  {salon.instagram && (
-                    <IconButton>
-                      <Instagram />
-                    </IconButton>
-                  )}
-                  {salon.tiktok && (
-                    <IconButton>
-                      <TiktokLogo />
-                    </IconButton>
-                  )}
-                  {salon.facebook && (
-                    <IconButton>
-                      <Facebook />
-                    </IconButton>
-                  )}
-                </Stack>
+                <ContactAndSocial salon={salon} />
               </Stack>
             </CardContent>
           </Card>
         </Stack>
         <Stack gap={2}>
-          <Typography fontSize={24}>Profissionais</Typography>
-          <Stack direction="row" gap={3}>
+          <Typography fontSize={24}>Team</Typography>
+          <Stack direction="row" gap={2}>
             {salon.Location[0].LocationHasProfessional.map(
               ({ professional }) => (
-                <Tooltip
+                <ProfessionalAvatar
                   key={professional.id}
-                  title={`${professional.user.firstName} ${professional.user.lastName}`}
-                >
-                  <IconButton>
-                    <Avatar
-                      {...stringAvatar(
-                        `${professional.user.firstName} ${professional.user.lastName}`
-                      )}
-                      sx={{ width: 100, height: 100 }}
-                      src={
-                        professional.user.avatarUrl
-                          ? `${process.env.NEXT_PUBLIC_API_URL}/salons/media/${professional.user.avatarUrl}`
-                          : undefined
-                      }
-                    />
-                  </IconButton>
-                </Tooltip>
+                  professional={professional}
+                />
               )
             )}
           </Stack>
         </Stack>
         <Stack gap={2}>
-          <Typography fontSize={24}>Sobre</Typography>
-          {salon.description}
+          <Typography fontSize={24}>About</Typography>
+          <Typography whiteSpace="pre-line">{salon.description}</Typography>
         </Stack>
         <Stack gap={2}>
-          <Typography fontSize={24}>Local</Typography>
+          <Typography fontSize={24}>Location</Typography>
           <Stack direction="row" width="100%">
             <div style={{ width: '50%', height: '100%' }}>
               <SalonMap salon={salon} className="h-72 w-full rounded-l-lg" />
@@ -219,20 +184,30 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
               }}
             >
               <CardContent>
-                <Stack width="100%" gap={1}>
+                <Stack width="100%" gap={1.5}>
                   <AddressDisplay salon={salon} />
-                  <Divider />
+                  <Divider>Payment methods</Divider>
+                  <PaymentMethodsChips location={salon.Location[0]} />
+                  <Divider>Informations</Divider>
+                  <LocationResourcesChips location={salon.Location[0]} />
                 </Stack>
               </CardContent>
             </Card>
           </Stack>
         </Stack>
-        <Stack gap={2}>
-          <Typography fontSize={24}>Horário de funcionamento</Typography>
-          <OpeningHours
-            openingHours={openingHours}
-            isLoading={openingHoursLoading}
-          />
+        <Stack direction="row" width="100%">
+          <Stack gap={2} width="45%">
+            <Typography fontSize={24}>Opening Hours</Typography>
+            <OpeningHours
+              openingHours={openingHours}
+              isLoading={openingHoursLoading}
+            />
+          </Stack>
+          <Divider orientation="vertical" flexItem sx={{ width: '5%' }} />
+          <Stack gap={2} width="45%" pl={4}>
+            <Typography fontSize={24}>Contacts and Socials</Typography>
+            <ContactAndSocialList salon={salon} />
+          </Stack>
         </Stack>
       </Stack>
     </Container>

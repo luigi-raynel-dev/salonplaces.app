@@ -43,7 +43,7 @@ export const ServiceCardItem: React.FC = () => {
               }
             }}
           >
-            Agendar
+            Book
           </Button>
         </Stack>
       </CardContent>
