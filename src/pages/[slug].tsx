@@ -7,7 +7,7 @@ import {
 import { SalonMap } from '@/components/salon/about/SalonMap'
 import {
   OpeningHours,
-  OpeningHoursType
+  OpeningHoursStatus
 } from '@/components/salon/location/OpeningHours'
 import { LocationResourcesChips } from '@/components/salon/location/LocationResources'
 import { ServiceList } from '@/components/salon/service/ServiceList'
@@ -31,6 +31,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { PaymentMethodsChips } from '@/components/salon/location/PaymentMethods'
 import { ProfessionalAvatar } from '@/components/professionals/ProfessionalAvatar'
+import { OpeningHoursType } from '@/helpers/openingHours'
 export interface SalonResponseProps {
   salon?: SalonProps
 }
@@ -147,6 +148,11 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
                 >
                   Book Now
                 </Button>
+                <Divider />
+                <OpeningHoursStatus
+                  openingHours={openingHours}
+                  isLoading={openingHoursLoading}
+                />
                 <ContactAndSocial salon={salon} />
               </Stack>
             </CardContent>

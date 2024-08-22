@@ -82,6 +82,7 @@ export const ContactAndSocialList: React.FC<ContactAndSocialProps> = ({
               href={link.getUrl(value)}
               target="_blank"
               rel="noopener noreferrer"
+              key={key}
             >
               <Stack direction="row" gap={1}>
                 {link.icon}

@@ -1,30 +1,12 @@
-import { Circle } from '@mui/icons-material'
+import {
+  OpeningHoursType,
+  getStatus,
+  Weekdays,
+  weekdays
+} from '@/helpers/openingHours'
+import { AccessTime, Circle } from '@mui/icons-material'
 import { Stack, Typography } from '@mui/material'
 import dayjs from 'dayjs'
-
-export const Weekdays = {
-  sunday: 'Sunday',
-  monday: 'Monday',
-  tuesday: 'Tuesday',
-  wednesday: 'Wednesday',
-  thursday: 'Thursday',
-  friday: 'Friday',
-  saturday: 'Saturday'
-} as const
-
-export type WeekdayNameType = keyof typeof Weekdays
-
-const weekdays: WeekdayNameType[] = Object.keys(Weekdays) as WeekdayNameType[]
-
-export type WeekdayOpeningHoursType = {
-  opening: string
-  closing: string
-}
-
-export type OpeningHoursType = Record<
-  WeekdayNameType,
-  WeekdayOpeningHoursType | null
->
 
 export interface OpeningHoursProps {
   openingHours?: OpeningHoursType | null
@@ -69,5 +51,30 @@ export const OpeningHours: React.FC<OpeningHoursProps> = ({ openingHours }) => {
         <Typography color="GrayText">Undefined Opening Hours</Typography>
       )}
     </Stack>
+  )
+}
+
+export const OpeningHoursStatus: React.FC<OpeningHoursProps> = ({
+  openingHours
+}) => {
+  const weekday = weekdays[dayjs().day()]
+  const { status, helper, color } = getStatus(openingHours)
+
+  return openingHours ? (
+    <Stack
+      key={weekday}
+      direction="row"
+      alignItems="center"
+      gap={0.5}
+      color={openingHours[weekday] ? undefined : 'InactiveCaptionText'}
+    >
+      <AccessTime />
+      <Typography fontWeight="bold" color={color}>
+        {status}
+      </Typography>
+      <Typography>{helper}</Typography>
+    </Stack>
+  ) : (
+    <Typography color="GrayText">Undefined Opening Hours</Typography>
   )
 }
