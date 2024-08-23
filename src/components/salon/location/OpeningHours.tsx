@@ -2,10 +2,11 @@ import {
   OpeningHoursType,
   getStatus,
   Weekdays,
-  weekdays
+  weekdays,
+  getFormatTime
 } from '@/helpers/openingHours'
 import { AccessTime, Circle } from '@mui/icons-material'
-import { Stack, Typography } from '@mui/material'
+import { Skeleton, Stack, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 
 export interface OpeningHoursProps {
@@ -38,8 +39,8 @@ export const OpeningHours: React.FC<OpeningHoursProps> = ({ openingHours }) => {
               <Typography>{Weekdays[weekday]}: </Typography>
               {openingHours[weekday] ? (
                 <Typography>
-                  {openingHours[weekday].opening} -{' '}
-                  {openingHours[weekday].closing}
+                  {getFormatTime(openingHours[weekday].opening)} -{' '}
+                  {getFormatTime(openingHours[weekday].closing)}
                 </Typography>
               ) : (
                 <Typography>Closed</Typography>
@@ -55,26 +56,25 @@ export const OpeningHours: React.FC<OpeningHoursProps> = ({ openingHours }) => {
 }
 
 export const OpeningHoursStatus: React.FC<OpeningHoursProps> = ({
-  openingHours
+  openingHours,
+  isLoading
 }) => {
   const weekday = weekdays[dayjs().day()]
   const { status, helper, color } = getStatus(openingHours)
 
-  return openingHours ? (
-    <Stack
-      key={weekday}
-      direction="row"
-      alignItems="center"
-      gap={0.5}
-      color={openingHours[weekday] ? undefined : 'InactiveCaptionText'}
-    >
+  return (
+    <Stack key={weekday} direction="row" alignItems="center" gap={1}>
       <AccessTime />
-      <Typography fontWeight="bold" color={color}>
-        {status}
-      </Typography>
-      <Typography>{helper}</Typography>
+      {isLoading ? (
+        <Skeleton width="250px" variant="text" sx={{ fontSize: '1rem' }} />
+      ) : (
+        <Stack direction="row" alignItems="center" gap={0.5}>
+          <Typography fontWeight="bold" color={color}>
+            {status}
+          </Typography>
+          <Typography>{helper}</Typography>
+        </Stack>
+      )}
     </Stack>
-  ) : (
-    <Typography color="GrayText">Undefined Opening Hours</Typography>
   )
 }

@@ -1,3 +1,4 @@
+import { getSystemLanguage } from '@/translations/language'
 import dayjs from 'dayjs'
 
 export const Weekdays = {
@@ -52,6 +53,22 @@ export const getNextOpenDay = (
   }
 }
 
+export const getHelperNextOpenDay = (
+  weekdayOpeningHours: WeekdayOpeningHoursType | null
+) => {
+  let helper: string | null = null
+  if (weekdayOpeningHours && weekdayOpeningHours.day) {
+    const diff = weekdayOpeningHours.day - dayjs().day()
+    helper = `opens ${
+      diff === 1
+        ? 'tomorrow'
+        : `on ${Weekdays[weekdays[weekdayOpeningHours.day]]}`
+    } at ${getFormatTime(weekdayOpeningHours.opening)}`
+  }
+
+  return helper
+}
+
 export const getStatus = (
   openingHours?: OpeningHoursType | null
 ): OpeningHoursInfoType => {
@@ -65,12 +82,17 @@ export const getStatus = (
   const weekday = weekdays[dayjs().day()]
   const now = dayjs()
   const day = now.format('YYYY-MM-DD')
-  if (!openingHours[weekday])
+
+  const nextOpenDay = getNextOpenDay(openingHours)
+  const helper = getHelperNextOpenDay(nextOpenDay)
+
+  if (!openingHours[weekday]) {
     return {
       status: 'Closed',
-      color: 'InactiveCaptionText',
-      helper: 'opens tomorrow at 9:00'
+      color: 'orangered',
+      helper
     }
+  }
 
   const opening = dayjs(
     `${day} ${openingHours[weekday].opening}`,
@@ -82,30 +104,33 @@ export const getStatus = (
   )
 
   if (now.isBefore(opening) || now.isAfter(closing)) {
-    const info: OpeningHoursInfoType = {
+    return {
       status: 'Closed',
       color: 'orangered',
-      helper: null
+      helper: now.isBefore(opening)
+        ? `opens at ${getFormatTime(openingHours[weekday].opening)}`
+        : helper
     }
-
-    if (now.isBefore(opening)) {
-      info.helper = `opens at ${openingHours[weekday].opening}`
-    } else {
-      const nextOpenDay = getNextOpenDay(openingHours)
-      if (nextOpenDay && nextOpenDay.day) {
-        const diff = nextOpenDay.day - dayjs().day()
-        info.helper = `opens ${
-          diff === 1 ? 'tomorrow' : `on ${Weekdays[weekdays[nextOpenDay.day]]}`
-        } at ${nextOpenDay.opening}`
-      }
-    }
-
-    return info
   }
 
   return {
     status: 'Opened',
     color: 'green',
-    helper: `closes at ${openingHours[weekday].closing}`
+    helper: `closes at ${getFormatTime(openingHours[weekday].closing)}`
   }
+}
+
+export const getFormatTime = (time: string, format: 12 | 24 | null = null) => {
+  const language = getSystemLanguage()
+
+  if (language !== 'en' && format !== 12) return time
+
+  let [hours, seconds] = time.split(':')
+  let convertedHours = Number(hours)
+  let shift: 'AM' | 'PM' =
+    convertedHours >= 12 && convertedHours < 24 ? 'PM' : 'AM'
+
+  if (convertedHours > 12) convertedHours -= 12
+
+  return `${convertedHours}:${seconds} ${shift}`
 }
