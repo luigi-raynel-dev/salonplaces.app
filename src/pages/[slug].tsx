@@ -79,7 +79,12 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
     <Container>
       <Stack py={4} gap={6}>
         <Stack gap={4}>
-          <Typography variant="h1" fontSize={40} fontWeight="700">
+          <Typography
+            variant="h1"
+            fontSize={40}
+            fontWeight="700"
+            display={{ xs: 'none', md: 'block' }}
+          >
             {salon.name}
           </Typography>
           <ImageCarousel>
@@ -102,8 +107,21 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
             ))}
           </ImageCarousel>
         </Stack>
+        <Typography
+          variant="h1"
+          fontSize={32}
+          fontWeight="700"
+          display={{ xs: 'block', md: 'none' }}
+        >
+          {salon.name}
+        </Typography>
         <Stack direction="row" justifyContent="space-between" gap={4}>
-          <Stack width="60%">
+          <Stack
+            width={{
+              xs: '100%',
+              md: '60%'
+            }}
+          >
             <Stack gap={3} width="100%">
               <Typography fontSize={24}>Services</Typography>
               <ServiceList />
@@ -124,7 +142,15 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
               </Stack>
             </Stack>
           </Stack>
-          <Card className="sticky top-0 h-full w-[40%]">
+          <Card
+            className="sticky top-0 h-full w-[40%]"
+            sx={{
+              display: {
+                xs: 'none',
+                md: 'block'
+              }
+            }}
+          >
             <CardContent>
               <Stack gap={2}>
                 <Stack direction="row" alignItems="center" gap={1}>
@@ -177,16 +203,32 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
         </Stack>
         <Stack gap={2}>
           <Typography fontSize={24}>Location</Typography>
-          <Stack direction="row" width="100%">
-            <div style={{ width: '50%', height: '100%' }}>
+          <Stack direction={{ xs: 'column', md: 'row' }} width="100%">
+            <Stack
+              width={{
+                xs: '100%',
+                md: '50%'
+              }}
+              height="100%"
+            >
               <SalonMap salon={salon} className="h-72 w-full rounded-l-lg" />
-            </div>
+            </Stack>
             <Card
               sx={{
                 background: '#F8F8FA',
-                width: '50%',
+                width: {
+                  xs: '100%',
+                  md: '50%'
+                },
                 borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0
+                borderTopRightRadius: {
+                  xs: 0,
+                  md: undefined
+                },
+                borderBottomLeftRadius: {
+                  xs: undefined,
+                  md: 0
+                }
               }}
             >
               <CardContent>
@@ -201,16 +243,48 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
             </Card>
           </Stack>
         </Stack>
-        <Stack direction="row" width="100%">
-          <Stack gap={2} width="45%">
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          width="100%"
+          gap={{
+            xs: 2,
+            md: 0
+          }}
+        >
+          <Stack
+            gap={2}
+            width={{
+              xs: '100%',
+              md: '45%'
+            }}
+          >
             <Typography fontSize={24}>Opening Hours</Typography>
             <OpeningHours
               openingHours={openingHours}
               isLoading={openingHoursLoading}
             />
           </Stack>
-          <Divider orientation="vertical" flexItem sx={{ width: '5%' }} />
-          <Stack gap={2} width="45%" pl={4}>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              width: {
+                xs: '100%',
+                md: '5%'
+              }
+            }}
+          />
+          <Stack
+            gap={2}
+            width={{
+              xs: '100%',
+              md: '45%'
+            }}
+            pl={{
+              xs: 0,
+              md: 4
+            }}
+          >
             <Typography fontSize={24}>Contacts and Socials</Typography>
             <ContactAndSocialList salon={salon} />
           </Stack>

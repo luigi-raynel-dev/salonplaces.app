@@ -1,4 +1,3 @@
-import { AccessTime } from '@mui/icons-material'
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material'
 
 export const ServiceList: React.FC = () => {
@@ -24,15 +23,12 @@ export const ServiceCardItem: React.FC = () => {
         >
           <Stack gap={1}>
             <Typography fontSize={20}>Serviço Lorem Ipsum</Typography>
-            <Typography fontSize={16} color="GrayText">
+            <Typography fontSize={14} color="GrayText">
+              60 minutos
+            </Typography>
+            <Typography fontSize={16} fontWeight={600}>
               R$ 30
             </Typography>
-            <Stack direction="row" alignItems="center" gap={0.5}>
-              <AccessTime />
-              <Typography fontSize={16} color="GrayText">
-                60 minutos
-              </Typography>
-            </Stack>
           </Stack>
           <Button
             variant="contained"
