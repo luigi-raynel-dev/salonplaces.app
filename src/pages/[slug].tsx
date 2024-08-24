@@ -79,7 +79,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
     <Container>
       <Stack py={4} gap={6}>
         <Stack gap={4}>
-          <Typography variant="h1" fontSize={32} fontWeight="500">
+          <Typography variant="h1" fontSize={40} fontWeight="700">
             {salon.name}
           </Typography>
           <ImageCarousel>

@@ -21,6 +21,7 @@
     "dayjs": "^1.11.12",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
+    "libphonenumber-js": "^1.11.7",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

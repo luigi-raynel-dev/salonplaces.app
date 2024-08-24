@@ -1,7 +1,8 @@
 import { SalonProps } from '@/helpers/salon'
 import { Facebook, Instagram, WhatsApp } from '@mui/icons-material'
-import { Button, Divider, IconButton, Stack, Tooltip } from '@mui/material'
+import { IconButton, Stack, Tooltip } from '@mui/material'
 import { TiktokLogo } from '@phosphor-icons/react'
+import { parsePhoneNumber } from 'libphonenumber-js'
 
 export interface ContactAndSocialProps {
   salon: SalonProps
@@ -12,7 +13,11 @@ const links = [
     name: 'phone',
     getUrl: (phone: string) =>
       `https://api.whatsapp.com/send?phone=${phone.substring(1)}`,
-    getLabel: (phone: string) => phone,
+    getLabel: (phone: string) => {
+      const phoneNumber = parsePhoneNumber(phone)
+
+      return phoneNumber.formatInternational()
+    },
     icon: <WhatsApp />
   },
   {
