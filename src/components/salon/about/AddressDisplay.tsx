@@ -14,10 +14,16 @@ export const AddressDisplay: React.FC<AddressDisplayProps> = ({ salon }) => {
         <Typography fontSize={16}>{salon.Location[0].address}</Typography>
       </Stack>
       <Stack alignItems="start">
-        <Button sx={{ gap: 1 }}>
-          <Directions />
-          Get directions
-        </Button>
+        <a
+          href={`http://maps.google.com?daddr=${salon.Location[0].address}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button sx={{ gap: 1 }}>
+            <Directions />
+            Get directions
+          </Button>
+        </a>
       </Stack>
     </Stack>
   )
