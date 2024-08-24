@@ -13,11 +13,7 @@ const links = [
     name: 'phone',
     getUrl: (phone: string) =>
       `https://api.whatsapp.com/send?phone=${phone.substring(1)}`,
-    getLabel: (phone: string) => {
-      const phoneNumber = parsePhoneNumber(phone)
-
-      return phoneNumber.formatInternational()
-    },
+    getLabel: (phone: string) => parsePhoneNumber(phone).formatInternational(),
     icon: <WhatsApp />
   },
   {
