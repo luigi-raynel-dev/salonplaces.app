@@ -16,11 +16,18 @@ export const TopBar: React.FC = () => {
           borderBottom: '1px solid #ddd'
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Typography
             variant="h2"
-            fontSize={30}
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            fontSize={20}
+            flexGrow={1}
+            fontWeight={600}
+            sx={{
+              backgroundImage: 'linear-gradient(blueviolet, black)',
+              backgroundClip: 'text',
+              color: 'black',
+              '-webkit-text-fill-color': 'transparent'
+            }}
           >
             SalonPlaces
           </Typography>

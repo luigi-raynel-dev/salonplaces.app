@@ -76,221 +76,254 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
   return !salon || salon.Location.length === 0 ? (
     <div></div>
   ) : (
-    <Container>
-      <Stack py={4} gap={6}>
-        <Stack gap={4}>
+    <Stack gap={1}>
+      <Container>
+        <Stack py={4} gap={6}>
+          <Stack gap={4}>
+            <Typography
+              variant="h1"
+              fontSize={40}
+              fontWeight="700"
+              display={{ xs: 'none', md: 'block' }}
+            >
+              {salon.name}
+            </Typography>
+            <ImageCarousel>
+              {salon.SalonMedia.map(media => (
+                <Card
+                  key={media.id}
+                  sx={{
+                    width: '100%',
+                    height: '400px',
+                    backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/salons/media/${media.url})`,
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                  }}
+                >
+                  <CardActionArea>
+                    <Stack height={'400px'}></Stack>
+                  </CardActionArea>
+                </Card>
+              ))}
+            </ImageCarousel>
+          </Stack>
           <Typography
             variant="h1"
-            fontSize={40}
+            fontSize={32}
             fontWeight="700"
-            display={{ xs: 'none', md: 'block' }}
+            display={{ xs: 'block', md: 'none' }}
           >
             {salon.name}
           </Typography>
-          <ImageCarousel>
-            {salon.SalonMedia.map(media => (
-              <Card
-                key={media.id}
-                sx={{
-                  width: '100%',
-                  height: '400px',
-                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/salons/media/${media.url})`,
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover'
-                }}
-              >
-                <CardActionArea>
-                  <Stack height={'400px'}></Stack>
-                </CardActionArea>
-              </Card>
-            ))}
-          </ImageCarousel>
-        </Stack>
-        <Typography
-          variant="h1"
-          fontSize={32}
-          fontWeight="700"
-          display={{ xs: 'block', md: 'none' }}
-        >
-          {salon.name}
-        </Typography>
-        <Stack direction="row" justifyContent="space-between" gap={4}>
-          <Stack
-            width={{
-              xs: '100%',
-              md: '60%'
-            }}
-          >
-            <Stack gap={3} width="100%">
-              <Typography fontSize={24}>Services</Typography>
-              <ServiceList />
-              <Stack alignItems="start">
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: 'black',
-                    background: 'white',
-                    fontWeight: '600',
-                    ':hover': {
-                      background: '#eee'
-                    }
-                  }}
-                >
-                  See all services
-                </Button>
-              </Stack>
-            </Stack>
-          </Stack>
-          <Card
-            className="sticky top-0 h-full w-[40%]"
-            sx={{
-              display: {
-                xs: 'none',
-                md: 'block'
-              }
-            }}
-          >
-            <CardContent>
-              <Stack gap={2}>
-                <Stack direction="row" alignItems="center" gap={1}>
-                  {salon.logoUrl && (
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_API_URL}/salons/media/${salon.logoUrl}`}
-                      className="w-10 h-10 rounded-full"
-                    />
-                  )}
-                  <Typography fontSize={24}>{salon.name}</Typography>
-                </Stack>
-                <AddressDisplay salon={salon} />
-                <Button
-                  variant="contained"
-                  sx={{
-                    background: 'black',
-                    ':hover': {
-                      background: '#141414'
-                    }
-                  }}
-                >
-                  Book Now
-                </Button>
-                <Divider />
-                <OpeningHoursStatus
-                  openingHours={openingHours}
-                  isLoading={openingHoursLoading}
-                />
-                <ContactAndSocial salon={salon} />
-              </Stack>
-            </CardContent>
-          </Card>
-        </Stack>
-        <Stack gap={2}>
-          <Typography fontSize={24}>Team</Typography>
-          <Stack direction="row" gap={2}>
-            {salon.Location[0].LocationHasProfessional.map(
-              ({ professional }) => (
-                <ProfessionalAvatar
-                  key={professional.id}
-                  professional={professional}
-                />
-              )
-            )}
-          </Stack>
-        </Stack>
-        <Stack gap={2}>
-          <Typography fontSize={24}>About</Typography>
-          <Typography whiteSpace="pre-line">{salon.description}</Typography>
-        </Stack>
-        <Stack gap={2}>
-          <Typography fontSize={24}>Location</Typography>
-          <Stack direction={{ xs: 'column', md: 'row' }} width="100%">
+          <Stack direction="row" justifyContent="space-between" gap={4}>
             <Stack
               width={{
                 xs: '100%',
-                md: '50%'
+                md: '60%'
               }}
-              height="100%"
             >
-              <SalonMap salon={salon} className="h-72 w-full rounded-l-lg" />
+              <Stack gap={3} width="100%">
+                <Typography fontSize={24}>Services</Typography>
+                <ServiceList />
+                <Stack alignItems="start">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      color: 'black',
+                      background: 'white',
+                      fontWeight: '600',
+                      ':hover': {
+                        background: '#eee'
+                      }
+                    }}
+                  >
+                    See all services
+                  </Button>
+                </Stack>
+              </Stack>
             </Stack>
             <Card
+              className="sticky top-0 h-full w-[40%]"
               sx={{
-                background: '#F8F8FA',
-                width: {
-                  xs: '100%',
-                  md: '50%'
-                },
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: {
-                  xs: 0,
-                  md: undefined
-                },
-                borderBottomLeftRadius: {
-                  xs: undefined,
-                  md: 0
+                display: {
+                  xs: 'none',
+                  md: 'block'
                 }
               }}
             >
               <CardContent>
-                <Stack width="100%" gap={1.5}>
+                <Stack gap={2}>
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    {salon.logoUrl && (
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API_URL}/salons/media/${salon.logoUrl}`}
+                        className="w-10 h-10 rounded-full"
+                      />
+                    )}
+                    <Typography fontSize={24}>{salon.name}</Typography>
+                  </Stack>
                   <AddressDisplay salon={salon} />
-                  <Divider>Payment methods</Divider>
-                  <PaymentMethodsChips location={salon.Location[0]} />
-                  <Divider>Informations</Divider>
-                  <LocationResourcesChips location={salon.Location[0]} />
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: 'black',
+                      ':hover': {
+                        background: '#141414'
+                      }
+                    }}
+                  >
+                    Book Now
+                  </Button>
+                  <Divider />
+                  <OpeningHoursStatus
+                    openingHours={openingHours}
+                    isLoading={openingHoursLoading}
+                  />
+                  <ContactAndSocial salon={salon} />
                 </Stack>
               </CardContent>
             </Card>
           </Stack>
+          <Stack gap={2}>
+            <Typography fontSize={24}>Team</Typography>
+            <Stack direction="row" gap={2}>
+              {salon.Location[0].LocationHasProfessional.map(
+                ({ professional }) => (
+                  <ProfessionalAvatar
+                    key={professional.id}
+                    professional={professional}
+                  />
+                )
+              )}
+            </Stack>
+          </Stack>
+          <Stack gap={2}>
+            <Typography fontSize={24}>About</Typography>
+            <Typography whiteSpace="pre-line">{salon.description}</Typography>
+          </Stack>
+          <Stack gap={2}>
+            <Typography fontSize={24}>Location</Typography>
+            <Stack direction={{ xs: 'column', md: 'row' }} width="100%">
+              <Stack
+                width={{
+                  xs: '100%',
+                  md: '50%'
+                }}
+                height="100%"
+              >
+                <SalonMap salon={salon} className="h-72 w-full rounded-l-lg" />
+              </Stack>
+              <Card
+                sx={{
+                  background: '#F8F8FA',
+                  width: {
+                    xs: '100%',
+                    md: '50%'
+                  },
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: {
+                    xs: 0,
+                    md: undefined
+                  },
+                  borderBottomLeftRadius: {
+                    xs: undefined,
+                    md: 0
+                  }
+                }}
+              >
+                <CardContent>
+                  <Stack width="100%" gap={1.5}>
+                    <AddressDisplay salon={salon} />
+                    <Divider>Payment methods</Divider>
+                    <PaymentMethodsChips location={salon.Location[0]} />
+                    <Divider>Informations</Divider>
+                    <LocationResourcesChips location={salon.Location[0]} />
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Stack>
+          </Stack>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            width="100%"
+            gap={{
+              xs: 2,
+              md: 0
+            }}
+          >
+            <Stack
+              gap={2}
+              width={{
+                xs: '100%',
+                md: '45%'
+              }}
+            >
+              <Typography fontSize={24}>Opening Hours</Typography>
+              <OpeningHours
+                openingHours={openingHours}
+                isLoading={openingHoursLoading}
+              />
+            </Stack>
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{
+                width: {
+                  xs: '100%',
+                  md: '5%'
+                }
+              }}
+            />
+            <Stack
+              gap={2}
+              width={{
+                xs: '100%',
+                md: '45%'
+              }}
+              pl={{
+                xs: 0,
+                md: 4
+              }}
+            >
+              <Typography fontSize={24}>Contacts and Socials</Typography>
+              <ContactAndSocialList salon={salon} />
+            </Stack>
+          </Stack>
         </Stack>
-        <Stack
-          direction={{ xs: 'column', md: 'row' }}
-          width="100%"
-          gap={{
-            xs: 2,
-            md: 0
+      </Container>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        className="sticky bottom-0 w-full bg-white border-t border-gray-300 z-[99999]"
+        p={1}
+        sx={{
+          display: { md: 'none' }
+        }}
+      >
+        <Stack direction="row" alignItems="center" gap={1}>
+          {salon.logoUrl && (
+            <img
+              src={`${process.env.NEXT_PUBLIC_API_URL}/salons/media/${salon.logoUrl}`}
+              className="w-8 h-8 rounded-full"
+            />
+          )}
+          <Typography fontWeight={600}>{salon.name}</Typography>
+        </Stack>
+        <Button
+          variant="contained"
+          sx={{
+            background: 'black',
+            ':hover': {
+              background: '#141414'
+            }
           }}
         >
-          <Stack
-            gap={2}
-            width={{
-              xs: '100%',
-              md: '45%'
-            }}
-          >
-            <Typography fontSize={24}>Opening Hours</Typography>
-            <OpeningHours
-              openingHours={openingHours}
-              isLoading={openingHoursLoading}
-            />
-          </Stack>
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{
-              width: {
-                xs: '100%',
-                md: '5%'
-              }
-            }}
-          />
-          <Stack
-            gap={2}
-            width={{
-              xs: '100%',
-              md: '45%'
-            }}
-            pl={{
-              xs: 0,
-              md: 4
-            }}
-          >
-            <Typography fontSize={24}>Contacts and Socials</Typography>
-            <ContactAndSocialList salon={salon} />
-          </Stack>
-        </Stack>
+          Book Now
+        </Button>
       </Stack>
-    </Container>
+    </Stack>
   )
 }
 
