@@ -1,4 +1,3 @@
-import { ImageCarousel } from '@/components/layout/ImageCarousel'
 import { AddressDisplay } from '@/components/salon/about/AddressDisplay'
 import {
   ContactAndSocial,
@@ -11,20 +10,15 @@ import {
 } from '@/components/salon/location/OpeningHours'
 import { LocationResourcesChips } from '@/components/salon/location/LocationResources'
 import { ServiceList } from '@/components/salon/service/ServiceList'
-import { stringAvatar } from '@/helpers/letterAvatar'
 import { SalonProps } from '@/helpers/salon'
 import { publicApi } from '@/lib/axios'
 import {
-  Avatar,
   Button,
   Card,
-  CardActionArea,
   CardContent,
   Container,
   Divider,
-  IconButton,
   Stack,
-  Tooltip,
   Typography
 } from '@mui/material'
 import { GetServerSideProps, NextPage } from 'next'
@@ -32,6 +26,7 @@ import { useEffect, useState } from 'react'
 import { PaymentMethodsChips } from '@/components/salon/location/PaymentMethods'
 import { ProfessionalAvatar } from '@/components/professionals/ProfessionalAvatar'
 import { OpeningHoursType } from '@/helpers/openingHours'
+import * as SalonMedia from '@/components/salon/location/SalonMedia'
 export interface SalonResponseProps {
   salon?: SalonProps
 }
@@ -88,25 +83,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
             >
               {salon.name}
             </Typography>
-            <ImageCarousel>
-              {salon.SalonMedia.map(media => (
-                <Card
-                  key={media.id}
-                  sx={{
-                    width: '100%',
-                    height: '400px',
-                    backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/salons/media/${media.url})`,
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover'
-                  }}
-                >
-                  <CardActionArea>
-                    <Stack height={'400px'}></Stack>
-                  </CardActionArea>
-                </Card>
-              ))}
-            </ImageCarousel>
+            <SalonMedia.MediaCarrousel salonMedia={salon.SalonMedia} />
           </Stack>
           <Typography
             variant="h1"

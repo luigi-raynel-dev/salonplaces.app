@@ -1,12 +1,18 @@
-import { Children } from 'react'
+import { Stack, StackProps } from '@mui/material'
 import Carousel, { ResponsiveType } from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
 export interface ImageCarouselProps {
+  slots?: {
+    stack?: StackProps
+  }
   children: React.ReactNode
 }
 
-export const ImageCarousel: React.FC<ImageCarouselProps> = ({ children }) => {
+export const ImageCarousel: React.FC<ImageCarouselProps> = ({
+  slots,
+  children
+}) => {
   const responsive: ResponsiveType = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -23,7 +29,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ children }) => {
   }
 
   return (
-    <div style={{ height: '400px', overflow: 'hidden' }}>
+    <Stack {...slots?.stack}>
       <Carousel
         responsive={responsive}
         swipeable
@@ -37,10 +43,9 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ children }) => {
         removeArrowOnDeviceType={['tablet', 'mobile']}
         deviceType="desktop"
         sliderClass="slider-class"
-        itemClass="carousel-item-padding-40-px"
       >
         {children}
       </Carousel>
-    </div>
+    </Stack>
   )
 }
