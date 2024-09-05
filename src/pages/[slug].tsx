@@ -72,9 +72,12 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
     <div></div>
   ) : (
     <Stack gap={1}>
+      <Stack gap={2} display={{ xs: 'flex', md: 'none' }}>
+        <SalonMedia.MediaCarrousel salonMedia={salon.SalonMedia} height={250} />
+      </Stack>
       <Container>
         <Stack py={4} gap={6}>
-          <Stack gap={4}>
+          <Stack gap={4} display={{ xs: 'none', md: 'flex' }}>
             <Typography
               variant="h1"
               fontSize={40}
