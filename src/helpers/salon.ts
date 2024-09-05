@@ -113,3 +113,16 @@ export interface SalonMediaProps {
   order: number
   createdAt: string
 }
+
+export interface SalonServiceProps {
+  id: number
+  title: string
+  description?: string | null
+  price: number
+  promocionalPrice?: number | null
+  minutes: number
+  imageUrl?: null | string
+  active: boolean
+  createdAt: string
+  updatedAt: string
+}

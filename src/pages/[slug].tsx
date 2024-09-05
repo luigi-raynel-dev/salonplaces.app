@@ -105,25 +105,7 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
                 md: '60%'
               }}
             >
-              <Stack gap={3} width="100%">
-                <Typography fontSize={24}>Services</Typography>
-                <ServiceList />
-                <Stack alignItems="start">
-                  <Button
-                    variant="contained"
-                    sx={{
-                      color: 'black',
-                      background: 'white',
-                      fontWeight: '600',
-                      ':hover': {
-                        background: '#eee'
-                      }
-                    }}
-                  >
-                    See all services
-                  </Button>
-                </Stack>
-              </Stack>
+              <ServiceList salon={salon} />
             </Stack>
             <Card
               className="sticky top-0 h-full w-[40%]"
