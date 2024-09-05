@@ -85,14 +85,16 @@ const Salon: NextPage<SalonResponseProps> = ({ salon }) => {
             </Typography>
             <SalonMedia.MediaCarrousel salonMedia={salon.SalonMedia} />
           </Stack>
-          <Typography
-            variant="h1"
-            fontSize={32}
-            fontWeight="700"
-            display={{ xs: 'block', md: 'none' }}
-          >
-            {salon.name}
-          </Typography>
+          <Stack gap={2} display={{ xs: 'flex', md: 'none' }}>
+            <Typography variant="h1" fontSize={32} fontWeight="700">
+              {salon.name}
+            </Typography>
+            <OpeningHoursStatus
+              openingHours={openingHours}
+              isLoading={openingHoursLoading}
+            />
+            <AddressDisplay salon={salon} />
+          </Stack>
           <Stack direction="row" justifyContent="space-between" gap={4}>
             <Stack
               width={{
